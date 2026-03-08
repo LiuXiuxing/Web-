@@ -1,0 +1,198 @@
+<!-- sidebar.html -->
+<div id="sidebar" class="sidebar d-flex flex-column">
+    <!-- Brand -->
+    <div class="sidebar-brand d-flex align-items-center px-3 py-4">
+        <div class="brand-logo me-2">
+            <img src="assets/images/logosample101.webp" alt="Logo" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="display:none">
+                <i class="bi bi-grid-3x3-gap-fill"></i>
+            </div>
+        </div>
+        <span class="brand-name fw-bold fs-5">MyDashboard</span>
+    </div>
+
+    <hr class="sidebar-divider mx-3 my-0">
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav flex-grow-1 py-3">
+        <ul class="nav flex-column px-2">
+            <li class="nav-item mb-1">
+                <a class="sidebar-link active" href="dashboard.html">
+                    <i class="bi bi-house-door-fill me-2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a class="sidebar-link" href="#">
+                    <i class="bi bi-people-fill me-2"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a class="sidebar-link" href="">
+                    <i class="bi bi-bar-chart-fill me-2"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a class="sidebar-link" href="#">
+                    <i class="bi bi-folder-fill me-2"></i>
+                    <span>Projects</span>
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a class="sidebar-link" href="#">
+                    <i class="bi bi-envelope-fill me-2"></i>
+                    <span>Messages</span>
+                    <span class="badge rounded-pill ms-auto">4</span>
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a class="sidebar-link" href="#">
+                    <i class="bi bi-calendar3 me-2"></i>
+                    <span>Calendar</span>
+                </a>
+            </li>
+
+            <li class="nav-section-label px-3 mt-3 mb-1">SETTINGS</li>
+
+            <li class="nav-item mb-1">
+                <a class="sidebar-link" href="#">
+                    <i class="bi bi-gear-fill me-2"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a class="sidebar-link" href="#">
+                    <i class="bi bi-shield-lock-fill me-2"></i>
+                    <span>Security</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <hr class="sidebar-divider mx-3 my-0">
+
+    <!-- User Footer -->
+    <div class="sidebar-user d-flex align-items-center px-3 py-3 gap-2">
+        <div class="user-avatar">JD</div>
+        <div class="overflow-hidden">
+            <div class="fw-semibold text-truncate small">John Doe</div>
+            <div class="text-truncate" style="font-size:0.72rem; color:#a0aec0;">john@example.com</div>
+        </div>
+        <a href="index.html" class="ms-auto sidebar-logout" title="Log Out">
+            <i class="bi bi-box-arrow-right"></i>
+        </a>
+    </div>
+</div>
+
+<style>
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #1a1c2e 0%, #2d2f4a 100%);
+    color: #e2e8f0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: width 0.3s ease;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+}
+
+.sidebar-brand .brand-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar-brand .brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.logo-fallback {
+    color: #fff;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-name {
+    color: #fff;
+    letter-spacing: 0.02em;
+}
+
+.sidebar-divider {
+    border-color: rgba(255,255,255,0.08);
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.55rem 0.85rem;
+    border-radius: 10px;
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background: rgba(102,126,234,0.15);
+    color: #fff;
+}
+
+.sidebar-link.active {
+    background: linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3));
+    color: #fff;
+    border-left: 3px solid #667eea;
+}
+
+.sidebar-link .badge {
+    background: #667eea;
+    font-size: 0.7rem;
+}
+
+.nav-section-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #4a5568;
+    text-transform: uppercase;
+    list-style: none;
+}
+
+.user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.sidebar-logout {
+    color: #4a5568;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.sidebar-logout:hover {
+    color: #fc8181;
+}
+</style>

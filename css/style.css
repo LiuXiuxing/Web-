@@ -1,0 +1,98 @@
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.logo-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+}
+
+h3 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.form-label {
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.form-check-input {
+    border: 2px solid #6a9aca;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.form-check-input:checked {
+    background-color: #667eea;
+    border-color: #667eea;
+}
+
+.form-check-label {
+    color: #6c757d;
+}
+
+.signup-link {
+    color: #667eea;
+    font-weight: 500;
+}
+
+.signup-link:hover {
+    color: #5568d3;
+}
+
+.signup-text-gray {
+    color: #6c757d;
+}
+
+.back-link,
+.resend-link {
+    color: #667eea;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.back-link:hover,
+.resend-link:hover {
+    color: #5568d3;
+    text-decoration: underline;
+}
+
+.text-muted-custom {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.password-requirements {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+}

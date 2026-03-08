@@ -1,0 +1,263 @@
+<!-- topbar.html -->
+<!-- Desktop Top Bar (visible on large screens) -->
+<div class="topbar d-none d-lg-flex align-items-center justify-content-between px-4">
+
+    <!-- Left: Page Title + Breadcrumb -->
+    <div>
+        <h5 class="topbar-title mb-0">Dashboard</h5>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Right: Search + Actions + Profile -->
+    <div class="d-flex align-items-center gap-3">
+
+        <!-- Search -->
+        <div class="topbar-search">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" class="topbar-search-input" placeholder="Search...">
+        </div>
+
+        <!-- Notifications -->
+        <button class="topbar-icon-btn position-relative" title="Notifications">
+            <i class="bi bi-bell-fill"></i>
+            <span class="notif-badge">3</span>
+        </button>
+
+        <!-- Messages -->
+        <button class="topbar-icon-btn" title="Messages">
+            <i class="bi bi-chat-dots-fill"></i>
+        </button>
+
+        <!-- Divider -->
+        <div class="topbar-vr"></div>
+
+        <!-- Profile Dropdown -->
+        <div class="dropdown">
+            <button class="topbar-profile-btn dropdown-toggle" data-bs-toggle="dropdown">
+                <div class="profile-avatar">JD</div>
+                <div class="profile-info d-none d-xl-block">
+                    <div class="profile-name">John Doe</div>
+                    <div class="profile-role">Administrator</div>
+                </div>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end topbar-dropdown shadow">
+                <li>
+                    <a class="dropdown-item" href="#">
+                        <i class="bi bi-person me-2"></i> My Profile
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="#">
+                        <i class="bi bi-gear me-2"></i> Settings
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <a class="dropdown-item text-danger" href="index.html">
+                        <i class="bi bi-box-arrow-right me-2"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+.topbar {
+    height: 68px;
+    background: #fff;
+    border-bottom: 1px solid #edf2f7;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+.topbar-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a202c;
+    font-family: 'Poppins', sans-serif;
+}
+
+.breadcrumb {
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.breadcrumb-item a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: #718096;
+}
+
+/* Search */
+.topbar-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    color: #a0aec0;
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+.topbar-search-input {
+    background: #f7fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.42rem 0.75rem 0.42rem 2rem;
+    font-size: 0.85rem;
+    width: 200px;
+    color: #2d3748;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.topbar-search-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+    width: 240px;
+}
+
+/* Icon Buttons */
+.topbar-icon-btn {
+    background: #f7fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4a5568;
+    font-size: 1rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.topbar-icon-btn:hover {
+    background: #667eea;
+    border-color: #667eea;
+    color: #fff;
+}
+
+.notif-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #fc8181;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+}
+
+.topbar-vr {
+    width: 1px;
+    height: 32px;
+    background: #e2e8f0;
+}
+
+/* Profile */
+.topbar-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+
+.topbar-profile-btn:hover {
+    background: #f7fafc;
+}
+
+.topbar-profile-btn::after {
+    color: #718096;
+    font-size: 0.75rem;
+}
+
+.profile-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.profile-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2d3748;
+    line-height: 1.2;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+}
+
+.profile-role {
+    font-size: 0.7rem;
+    color: #a0aec0;
+    text-align: left;
+}
+
+/* Dropdown */
+.topbar-dropdown {
+    border: 1px solid #edf2f7;
+    border-radius: 12px;
+    padding: 6px;
+    min-width: 180px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+}
+
+.topbar-dropdown .dropdown-item {
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #4a5568;
+    transition: background 0.15s;
+}
+
+.topbar-dropdown .dropdown-item:hover {
+    background: #f7fafc;
+    color: #2d3748;
+}
+
+.topbar-dropdown .dropdown-item.text-danger:hover {
+    background: #fff5f5;
+}
+
+.topbar-dropdown .dropdown-divider {
+    margin: 4px 0;
+    border-color: #edf2f7;
+}
+</style>

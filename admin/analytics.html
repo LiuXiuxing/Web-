@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f0f2f8; margin: 0; }
+        .layout-wrapper { display: flex; min-height: 100vh; }
+        .main-content { margin-left: 240px; flex: 1; min-width: 0; }
+        @media (max-width: 991.98px) { .main-content { margin-left: 0; } }
+        .page-body { padding: 28px; }
+
+        /* Sidebar */
+        .sidebar { width:240px; min-height:100vh; background:linear-gradient(180deg,#1a1c2e 0%,#2d2f4a 100%); color:#e2e8f0; position:fixed; top:0; left:0; z-index:1000; box-shadow:4px 0 20px rgba(0,0,0,0.3); transition:transform 0.3s ease; }
+        .sidebar-brand .brand-logo { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#667eea,#764ba2); display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden; }
+        .sidebar-brand .brand-logo img { width:100%; height:100%; object-fit:cover; }
+        .brand-name { color:#fff; letter-spacing:0.02em; }
+        .sidebar-divider { border-color:rgba(255,255,255,0.08); }
+        .sidebar-link { display:flex; align-items:center; padding:0.55rem 0.85rem; border-radius:10px; color:#a0aec0; text-decoration:none; font-size:0.875rem; font-weight:500; transition:all 0.2s; }
+        .sidebar-link:hover { background:rgba(102,126,234,0.15); color:#fff; }
+        .sidebar-link.active { background:linear-gradient(135deg,rgba(102,126,234,0.3),rgba(118,75,162,0.3)); color:#fff; border-left:3px solid #667eea; }
+        .nav-section-label { font-size:0.65rem; font-weight:700; letter-spacing:0.1em; color:#4a5568; text-transform:uppercase; list-style:none; }
+        .user-avatar { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; flex-shrink:0; }
+        .sidebar-logout { color:#4a5568; font-size:1rem; transition:color 0.2s; }
+        .sidebar-logout:hover { color:#fc8181; }
+
+        /* Topbar */
+        .topbar { height:68px; background:#fff; border-bottom:1px solid #edf2f7; box-shadow:0 2px 12px rgba(0,0,0,0.05); position:sticky; top:0; z-index:900; display:flex; align-items:center; justify-content:space-between; padding:0 28px; }
+        .topbar-title { font-size:1rem; font-weight:700; color:#1a202c; }
+        .breadcrumb { font-size:0.75rem; margin:0; }
+        .breadcrumb-item a { color:#667eea; text-decoration:none; }
+        .breadcrumb-item.active { color:#718096; }
+        .profile-avatar-top { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; display:flex; align-items:center; justify-content:center; font-size:0.78rem; font-weight:700; }
+
+        /* Mobile Navbar */
+        .mobile-navbar { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); position:sticky; top:0; z-index:999; height:58px; box-shadow:0 2px 12px rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:space-between; padding:0 16px; }
+        .navbar-toggler-custom { background:rgba(255,255,255,0.15); border:none; border-radius:8px; width:38px; height:38px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.3rem; cursor:pointer; }
+        .user-avatar-sm { width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.25); color:#fff; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:700; border:2px solid rgba(255,255,255,0.4); }
+        .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:999; }
+        .sidebar-overlay.active { display:block; }
+        @media (max-width:991.98px) { #sidebar { transform:translateX(-100%); } #sidebar.open { transform:translateX(0); } }
+
+        /* Analytics Page */
+        .section-title { font-size:0.95rem; font-weight:700; color:#1a202c; margin-bottom:16px; }
+
+        .stat-card { background:#fff; border-radius:16px; padding:20px 22px; box-shadow:0 2px 16px rgba(0,0,0,0.06); display:flex; align-items:center; gap:16px; }
+        .stat-icon { width:50px; height:50px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+        .stat-icon.purple { background:rgba(102,126,234,0.12); color:#667eea; }
+        .stat-icon.teal   { background:rgba(56,178,172,0.12);  color:#38b2ac; }
+        .stat-icon.orange { background:rgba(237,137,54,0.12);  color:#ed8936; }
+        .stat-icon.green  { background:rgba(72,187,120,0.12);  color:#48bb78; }
+        .stat-value { font-size:1.4rem; font-weight:700; color:#1a202c; line-height:1; }
+        .stat-label { font-size:0.75rem; color:#718096; margin-top:2px; }
+        .stat-change { font-size:0.72rem; font-weight:600; margin-top:4px; }
+        .stat-change.up { color:#38a169; }
+        .stat-change.down { color:#e53e3e; }
+
+        .chart-card { background:#fff; border-radius:16px; box-shadow:0 2px 16px rgba(0,0,0,0.06); padding:22px; }
+        .chart-card .card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+        .chart-card .card-top h6 { font-size:0.88rem; font-weight:700; color:#1a202c; margin:0; }
+
+        /* Bar Chart (CSS-only) */
+        .bar-chart { display:flex; align-items:flex-end; gap:10px; height:160px; }
+        .bar-wrap { display:flex; flex-direction:column; align-items:center; flex:1; gap:6px; }
+        .bar {
+            width:100%; border-radius:8px 8px 0 0;
+            background: linear-gradient(180deg,#667eea,#764ba2);
+            transition: opacity 0.2s;
+        }
+        .bar:hover { opacity:0.75; }
+        .bar-label { font-size:0.68rem; color:#a0aec0; }
+
+        /* Donut (CSS-only) */
+        .donut-wrap { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+        .donut {
+            width:130px; height:130px; border-radius:50%; flex-shrink:0;
+            background: conic-gradient(
+                #667eea 0% 42%,
+                #38b2ac 42% 66%,
+                #ed8936 66% 82%,
+                #fc8181 82% 100%
+            );
+            display:flex; align-items:center; justify-content:center;
+            position:relative;
+        }
+        .donut::after {
+            content:''; width:80px; height:80px; background:#fff;
+            border-radius:50%; position:absolute;
+        }
+        .donut-legend { display:flex; flex-direction:column; gap:8px; }
+        .legend-item { display:flex; align-items:center; gap:8px; font-size:0.78rem; color:#4a5568; }
+        .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+        /* Top Pages Table */
+        .data-card { background:#fff; border-radius:16px; box-shadow:0 2px 16px rgba(0,0,0,0.06); overflow:hidden; }
+        .data-card .table { margin:0; font-size:0.83rem; }
+        .data-card .table th { background:#f7fafc; color:#718096; font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid #edf2f7; padding:12px 18px; }
+        .data-card .table td { padding:12px 18px; color:#4a5568; vertical-align:middle; border-bottom:1px solid #f7fafc; }
+        .data-card .table tbody tr:last-child td { border-bottom:none; }
+        .data-card .table tbody tr:hover td { background:#f7fafc; }
+
+        .mini-bar-wrap { display:flex; align-items:center; gap:8px; }
+        .mini-bar-bg { flex:1; height:6px; background:#edf2f7; border-radius:99px; }
+        .mini-bar-fill { height:100%; border-radius:99px; background:linear-gradient(90deg,#667eea,#764ba2); }
+
+        /* Period Tabs */
+        .period-tabs { display:flex; gap:6px; }
+        .period-tab {
+            padding:4px 12px; border-radius:8px; font-size:0.75rem;
+            font-weight:600; border:1.5px solid #e2e8f0; background:#f7fafc;
+            color:#718096; cursor:pointer; transition:all 0.2s;
+        }
+        .period-tab.active, .period-tab:hover {
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            border-color:transparent; color:#fff;
+        }
+    </style>
+</head>
+<body>
+<div class="layout-wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar d-flex flex-column">
+        <div class="sidebar-brand d-flex align-items-center px-3 py-4">
+            <div class="brand-logo me-2">
+                <img src="assets/images/logosample101.webp" alt="Logo" onerror="this.style.display='none'">
+            </div>
+            <span class="brand-name fw-bold fs-5">MyDashboard</span>
+        </div>
+        <hr class="sidebar-divider mx-3 my-0">
+        <nav class="sidebar-nav flex-grow-1 py-3">
+            <ul class="nav flex-column px-2">
+                <li class="nav-item mb-1"><a class="sidebar-link" href="dashboard.html"><i class="bi bi-house-door-fill me-2"></i>Dashboard</a></li>
+                <li class="nav-item mb-1"><a class="sidebar-link" href="#"><i class="bi bi-people-fill me-2"></i>Users</a></li>
+                <li class="nav-item mb-1"><a class="sidebar-link active" href="analytics.html"><i class="bi bi-bar-chart-fill me-2"></i>Analytics</a></li>
+                <li class="nav-item mb-1"><a class="sidebar-link" href="reports.html"><i class="bi bi-folder-fill me-2"></i>Reports</a></li>
+                <li class="nav-item mb-1"><a class="sidebar-link" href="#"><i class="bi bi-envelope-fill me-2"></i>Messages<span class="badge rounded-pill ms-auto" style="background:#667eea">4</span></a></li>
+                <li class="nav-item mb-1"><a class="sidebar-link" href="#"><i class="bi bi-calendar3 me-2"></i>Calendar</a></li>
+                <li class="nav-section-label px-3 mt-3 mb-1">SETTINGS</li>
+                <li class="nav-item mb-1"><a class="sidebar-link" href="#"><i class="bi bi-gear-fill me-2"></i>Settings</a></li>
+                <li class="nav-item mb-1"><a class="sidebar-link" href="profile.html"><i class="bi bi-person-fill me-2"></i>Profile</a></li>
+            </ul>
+        </nav>
+        <hr class="sidebar-divider mx-3 my-0">
+        <div class="sidebar-user d-flex align-items-center px-3 py-3 gap-2">
+            <div class="user-avatar">JD</div>
+            <div class="overflow-hidden">
+                <div class="fw-semibold text-truncate small">John Doe</div>
+                <div class="text-truncate" style="font-size:0.72rem;color:#a0aec0">john@example.com</div>
+            </div>
+            <a href="index.html" class="ms-auto sidebar-logout" title="Log Out"><i class="bi bi-box-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Mobile Navbar -->
+        <nav class="mobile-navbar d-lg-none">
+            <button class="navbar-toggler-custom" id="mobileSidebarToggle"><i class="bi bi-list"></i></button>
+            <span class="fw-bold text-white fs-6">Analytics</span>
+            <div class="user-avatar-sm">JD</div>
+        </nav>
+
+        <!-- Topbar -->
+        <div class="topbar d-none d-lg-flex">
+            <div>
+                <h5 class="topbar-title mb-0">Analytics</h5>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+                        <li class="breadcrumb-item active">Analytics</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="profile-avatar-top">JD</div>
+        </div>
+
+        <div class="page-body">
+
+            <!-- Stat Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><i class="bi bi-eye-fill"></i></div>
+                        <div>
+                            <div class="stat-value">94.2k</div>
+                            <div class="stat-label">Page Views</div>
+                            <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>18% vs last month</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon teal"><i class="bi bi-person-check-fill"></i></div>
+                        <div>
+                            <div class="stat-value">3,410</div>
+                            <div class="stat-label">Unique Visitors</div>
+                            <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>9% vs last month</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="bi bi-clock-history"></i></div>
+                        <div>
+                            <div class="stat-value">4m 12s</div>
+                            <div class="stat-label">Avg. Session</div>
+                            <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>6% vs last month</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="bi bi-arrow-left-right"></i></div>
+                        <div>
+                            <div class="stat-value">38.5%</div>
+                            <div class="stat-label">Bounce Rate</div>
+                            <div class="stat-change down"><i class="bi bi-arrow-down-short"></i>2% vs last month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row g-3 mb-4">
+                <!-- Bar Chart -->
+                <div class="col-lg-7">
+                    <div class="chart-card">
+                        <div class="card-top">
+                            <h6>Weekly Visitors</h6>
+                            <div class="period-tabs">
+                                <span class="period-tab">Week</span>
+                                <span class="period-tab active">Month</span>
+                                <span class="period-tab">Year</span>
+                            </div>
+                        </div>
+                        <div class="bar-chart">
+                            <div class="bar-wrap"><div class="bar" style="height:55%"></div><span class="bar-label">Jan</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:70%"></div><span class="bar-label">Feb</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:45%"></div><span class="bar-label">Mar</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:90%"></div><span class="bar-label">Apr</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:65%"></div><span class="bar-label">May</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:80%"></div><span class="bar-label">Jun</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:60%"></div><span class="bar-label">Jul</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:75%"></div><span class="bar-label">Aug</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:50%"></div><span class="bar-label">Sep</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:85%"></div><span class="bar-label">Oct</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:95%"></div><span class="bar-label">Nov</span></div>
+                            <div class="bar-wrap"><div class="bar" style="height:100%"></div><span class="bar-label">Dec</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donut Chart -->
+                <div class="col-lg-5">
+                    <div class="chart-card h-100">
+                        <div class="card-top">
+                            <h6>Traffic Sources</h6>
+                        </div>
+                        <div class="donut-wrap">
+                            <div class="donut"></div>
+                            <div class="donut-legend">
+                                <div class="legend-item"><div class="legend-dot" style="background:#667eea"></div><span>Organic — 42%</span></div>
+                                <div class="legend-item"><div class="legend-dot" style="background:#38b2ac"></div><span>Direct — 24%</span></div>
+                                <div class="legend-item"><div class="legend-dot" style="background:#ed8936"></div><span>Referral — 16%</span></div>
+                                <div class="legend-item"><div class="legend-dot" style="background:#fc8181"></div><span>Social — 18%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Pages -->
+            <div class="section-title">Top Pages</div>
+            <div class="data-card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Page</th>
+                                <th>Views</th>
+                                <th>Bounce Rate</th>
+                                <th>Traffic</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>/dashboard</strong></td>
+                                <td>24,300</td>
+                                <td>28%</td>
+                                <td><div class="mini-bar-wrap"><div class="mini-bar-bg"><div class="mini-bar-fill" style="width:90%"></div></div><span style="font-size:0.75rem;color:#718096">90%</span></div></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><strong>/analytics</strong></td>
+                                <td>18,750</td>
+                                <td>32%</td>
+                                <td><div class="mini-bar-wrap"><div class="mini-bar-bg"><div class="mini-bar-fill" style="width:72%"></div></div><span style="font-size:0.75rem;color:#718096">72%</span></div></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><strong>/reports</strong></td>
+                                <td>12,100</td>
+                                <td>41%</td>
+                                <td><div class="mini-bar-wrap"><div class="mini-bar-bg"><div class="mini-bar-fill" style="width:55%"></div></div><span style="font-size:0.75rem;color:#718096">55%</span></div></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><strong>/profile</strong></td>
+                                <td>8,420</td>
+                                <td>45%</td>
+                                <td><div class="mini-bar-wrap"><div class="mini-bar-bg"><div class="mini-bar-fill" style="width:38%"></div></div><span style="font-size:0.75rem;color:#718096">38%</span></div></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><strong>/login</strong></td>
+                                <td>5,980</td>
+                                <td>60%</td>
+                                <td><div class="mini-bar-wrap"><div class="mini-bar-bg"><div class="mini-bar-fill" style="width:25%"></div></div><span style="font-size:0.75rem;color:#718096">25%</span></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const toggleBtn = document.getElementById('mobileSidebarToggle');
+    const sidebar   = document.getElementById('sidebar');
+    const overlay   = document.getElementById('sidebarOverlay');
+    toggleBtn.addEventListener('click', () => { sidebar.classList.toggle('open'); overlay.classList.toggle('active'); });
+    overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('active'); });
+
+    // Period tab toggle
+    document.querySelectorAll('.period-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>
